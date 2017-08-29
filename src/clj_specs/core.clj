@@ -1,24 +1,24 @@
+
+;; # Clojure specs
 (ns clj-specs.core
   (:require 
     [clojure.spec.alpha :as s]
     [clojure.pprint :refer [pprint]]))
 
-;; # Predicates
+;; ## Predicates
 ;; - s/def adds a spec to the registry of specs
 (s/def ::big-even (s/and int? even? #(> % 1000)))
 
-;; # Conform 
+;; ## Conform 
 ;; - s/conform returns the value if it conforms to the given spec or :clojure.spec/invalid otherwise
 
-;; 1. conforms
+;; 12000
 (s/conform ::big-even 12000)
-; 12000
 
-;; 2. does not conform
+;; :clojure.spec.alpha/invalid
 (s/conform ::big-even 123)
-; :clojure.spec.alpha/invalid
 
-;; # Explain 
+;; ## Explain 
 ;; - why the data doesn't conform to the given spec
 (s/explain ::big-even 123)
 ; val: 123 fails spec: :clj-specs.core/big-even predicate: even?
@@ -26,13 +26,13 @@
 (s/explain-data ::big-even "not a number")
 ; returns explanation as data structure
 
-;; # Generate test data
+;; ## Generate test data
 ;; - s/exercise requires [org.clojure/test.check "0.10.0-alpha2"]
 (pprint (s/exercise ::big-even))
 ; returns tuples like [[an-example-value a-conformed-value]]
 
-;; # Structural
-;; ## s/coll-of
+;; ## Structural
+;; ### s/coll-of
 ;; - specify structure of a collection
 
 (s/conform (s/coll-of number?) [5 10 2])
@@ -50,21 +50,21 @@
 (s/conform ::a-numeric-vector-of-3-distint-values [1 2 3])
 ;;=> #{1 2 3}
 
-;; ## s/keys
+;; ### s/keys
 ;; - specify required or optional keys in a map
 (s/def ::person (s/keys :req [::first-name ::last-name ::email]
                         :opt [::phone]))
 
 
-;; ## Specify every element of a collection should be valid
+;; ### Specify every element of a collection should be valid
 (s/every)
 
-;; ## Specify a map of
+;; ### Specify a map of
 (s/map-of)
 
-;; # Sequences
+;; ## Sequences
 
-;; # Regex
+;; ## Regex
 ;; - s/cat s/* s/+ s/&
 
 
