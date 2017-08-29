@@ -1,10 +1,11 @@
 # clj-specs
 
-A Clojure library designed to ... well, that part is up to you.
+```
+$ lein repl
 
-## Usage
-
-FIXME
+# to refresh namespaces
+dev=> (refresh)
+```
 
 ## License
 

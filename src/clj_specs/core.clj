@@ -57,10 +57,10 @@
 
 
 ;; ### Specify every element of a collection should be valid
-(s/every)
+; (s/every)
 
 ;; ### Specify a map of
-(s/map-of)
+; (s/map-of)
 
 ;; ## Sequences
 
@@ -73,30 +73,34 @@
 ;; :args 
 ;; :ret 
 ;; :fn
+(defn- some-predicate [] true)
+(defn- some-relationship-between-ret-and-args [] true)
+(defn- some-fn [x] 123)
 (s/fdef some-fn 
   :args (some-predicate)
   :ret int?
   :fn (some-relationship-between-ret-and-args)) 
 
-
-  ;; # Validation
-  ;; - using spec for validation
-  (defn person-name
+;; # Validation
+;; - using spec for validation
+(defn person-name
   [person]
   {:pre [(s/valid? ::person person)]
    :post [(s/valid? string? %)]}
   (str (::first-name person) " " (::last-name person)))
 
-(defn- set-config [prop val]
-  ;; dummy fn
-  (println "set" prop val))
+; (defn- set-config [prop val]
+;   ;; dummy fn
+;   (println "set" prop val))
 
-(defn configure [input]
-  (let [parsed (s/conform ::config input)]
-    (if (= parsed ::s/invalid)
-      (throw (ex-info "Invalid input" (s/explain-data ::config input)))
-      (for [{prop :prop [_ val] :val} parsed]
-        (set-config (subs prop 1) val)))))
+; (s/def ::config (s/keys :req [::prop ::val]))
 
-(configure ["-server" "foo" "-verbose" true "-user" "joe"])
+; (defn configure [input]
+;   (let [parsed (s/conform ::config input)]
+;     (if (= parsed ::s/invalid)
+;       (throw (ex-info "Invalid input" (s/explain-data ::config input)))
+;       (for [{prop :prop [_ val] :val} parsed]
+;         (set-config (subs prop 1) val)))))
+
+; (configure ["-server" "foo" "-verbose" true "-user" "joe"])
 
